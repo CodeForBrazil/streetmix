@@ -1,63 +1,58 @@
-var mongoose = require('mongoose'),
-    config = require('config'),
-    async = require('async'),
-    db = require('../../../lib/db.js'),
-    User = require('../../models/user.js'),
-    Street = require('../../models/street.js'),
-    logger = require('../../../lib/logger.js')();
+var async = require('async')
 
-exports.get = function(req, res) {
+require('../../../lib/db.js')
+var User = require('../../models/user.js')
+var Street = require('../../models/street.js')
+var logger = require('../../../lib/logger.js')()
 
-  var handleFindUser = function(err, user) {
-
+exports.get = function (req, res) {
+  var handleFindUser = function (err, user) {
     if (err) {
       logger.error(err)
-      res.send(500, 'Could not find user.')
+      res.status(500).send('Could not find user.')
       return
     }
 
     if (!user) {
-      res.send(404, 'Could not find user.')
+      res.status(404).send('Could not find user.')
       return
     }
-   
+
     var json = { streets: [] }
 
-    var handleFindStreets = function(err, streets) {
-      
+    var handleFindStreets = function (err, streets) {
       if (err) {
         logger.error(err)
-        res.send(500, 'Could not find streets for user.')
+        res.status(500).send('Could not find streets for user.')
         return
       }
-      
+
       async.map(
         streets,
-        function(street, callback) { street.asJson(callback) },
-        function(err, results) {
-          
+        function (street, callback) { street.asJson(callback) },
+        function (err, results) {
           if (err) {
             logger.error(err)
-            res.send(500, 'Could not append street.')
+            res.status(500).send('Could not append street.')
             return
           }
 
           json.streets = results
-          res.send(200, json)
-          
+          res.status(200).send(json)
+
         }) // END - async.map
 
     } // END function - handleFindStreets
-  
+
     Street.find({ creator_id: user._id, status: 'ACTIVE' })
       .sort({ updated_at: 'descending' })
       .exec(handleFindStreets)
-    
+
   } // END function - handleFindUser
 
   // Flag error if user ID is not provided
   if (!req.params.user_id) {
-    res.send(400, 'Please provide user ID.')
+    res.status(400).send('Please provide user ID.')
     return
   }
 

@@ -13,8 +13,9 @@ exports.config = {
 
   jasmineNodeOpts: {
     showColors: true,
-    defaultTimeoutInterval: 30000
+    defaultTimeoutInterval: 30000,
+    isVerbose: true
   },
 
   baseUrl: 'http://localhost:' + (process.env.HTTP_PORT || '3000')
-};
+}

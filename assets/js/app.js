@@ -5,19 +5,24 @@
  *
  */
 
-//= require vendor/modernizr
-//= require vendor/moment
-//= require vendor/jquery-2.1.0.min
-//= require vendor/jquery.cookie
+// = require vendor/modernizr.custom.30104
+// = require vendor/jquery-2.1.4.min
+// = require_tree vendor
 
-//= require_self
-//= require_tree util
-//= require_tree app
-//= require_tree menus
-//= require_tree dialog_boxes
-//= require_tree segments
-//= require_tree streets
-//= require_tree gallery
-//= require_tree users
+// = require_self
+// = require_tree util
+// = require app/keypress
+// = require_tree app
 
-var app = {};
+// = require menus/menu-manager
+// = require menus/menu
+// = require_tree menus
+
+// = require dialogs/dialog-manager
+// = require dialogs/dialog
+// = require_tree dialogs
+
+// = require_tree segments
+// = require_tree streets
+// = require_tree gallery
+// = require_tree users

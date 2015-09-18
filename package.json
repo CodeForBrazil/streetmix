@@ -1,49 +1,82 @@
 {
   "name": "streetmix",
-  "version": "0.0.1",
+  "version": "1.3.0",
   "private": false,
-  "dependencies": {
-    "async": "0.2.x",
-    "body-parser": "^1.2.0",
-    "compression": "^1.0.2",
-    "config": "0.4.x",
-    "connect-assets": "^4.3.0",
-    "cookie-parser": "^1.1.0",
-    "cookie-session": "^1.0.2",
-    "cors": "^2.3.1",
-    "dateformat": "1.0.x",
-    "ejs": "~1.0.0",
-    "express": "3.0.x",
-    "less": "^1.7.5",
-    "mongoose": "3.6.8",
-    "newrelic": "^1.11.0",
-    "node-env-file": "^0.1.3",
-    "oauth": "0.9.x",
-    "request": "2.36.x",
-    "requireindex": "1.1.x",
-    "sendgrid": "0.2.x",
-    "sprintf": "0.1.x",
-    "strong-agent": "latest",
-    "supervisor": "0.6.x",
-    "twitter": "0.2.x",
-    "uuid": "1.4.x",
-    "validator": "1.5.x",
-    "winston": "^0.7.3"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codeforamerica/streetmix.git"
   },
+  "license": "BSD-3-Clause",
   "engines": {
-    "node": "0.10.x",
-    "npm": "1.2.x"
+    "node": ">=4.0.0",
+    "npm": ">=2.14.2"
   },
   "scripts": {
+    "prestart": "mongod --fork --logpath /dev/null",
     "start": "supervisor index.js",
-    "test": "grunt test:local"
+    "stop": "mongo admin --eval 'db.shutdownServer()' > /dev/null",
+    "pretest": "mongod --fork --logpath /dev/null",
+    "test": "node test/index | node_modules/.bin/tap-spec && grunt test:local",
+    "posttest": "mongo admin --eval 'db.shutdownServer()' > /dev/null"
+  },
+  "dependencies": {
+    "async": "^1.4.2",
+    "autoprefixer": "^6.0.2",
+    "body-parser": "^1.13.3",
+    "btoa": "^1.1.2",
+    "compression": "^1.5.2",
+    "config": "^1.16.0",
+    "connect-assets": "^5.0.1",
+    "cookie-parser": "^1.3.5",
+    "cookie-session": "^1.2.0",
+    "dateformat": "1.0.x",
+    "express": "^4.13.3",
+    "gulp-if": "^1.2.5",
+    "gulp-plumber": "^1.0.1",
+    "gulp-postcss": "^6.0.0",
+    "gulp-sass": "^2.0.4",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-tap": "^0.1.3",
+    "i18next": "^1.10.4",
+    "jade": "^1.11.0",
+    "mongoose": "^4.1.6",
+    "newrelic": "^1.22.0",
+    "node-env-file": "^0.1.7",
+    "node-sass": "^3.3.2",
+    "oauth": "0.9.x",
+    "postcss": "^5.0.5",
+    "request": "^2.61.x",
+    "requireindex": "1.1.x",
+    "sendgrid": "^1.9.2",
+    "sprintf": "0.1.x",
+    "streetmix-icons": "git://github.com/streetmix/icons.git",
+    "superagent": "^1.3.0",
+    "supervisor": "^0.7.1",
+    "twitter": "^1.2.5",
+    "uuid": "2.0.x",
+    "validator": "^4.0.5",
+    "vinyl-fs": "^1.0.0",
+    "winston": "^1.0.1"
   },
   "devDependencies": {
+    "eslint": "^1.4.1",
     "grunt": "^0.4.5",
-    "grunt-env": "^0.4.1",
-    "grunt-express": "1.4.0",
-    "grunt-protractor-runner": "^1.1.4",
-    "grunt-shell": "^1.1.1",
-    "load-grunt-tasks": "^0.6.0"
+    "grunt-env": "^0.4.4",
+    "grunt-express": "^1.4.1",
+    "grunt-protractor-runner": "^2.1.0",
+    "grunt-shell": "^1.1.2",
+    "load-grunt-tasks": "^3.2.0",
+    "proxyquire": "^1.7.2",
+    "standard": "^5.2.2",
+    "supertest": "^1.1.0",
+    "tap-spec": "^4.1.0",
+    "tape": "^4.0.1",
+    "tape-catch": "^1.0.4"
+  },
+  "standard": {
+    "ignore": [
+      "assets/js/vendor/",
+      "test/integration/smoke.spec.js"
+    ]
   }
 }

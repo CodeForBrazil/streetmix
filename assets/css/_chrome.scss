@@ -1,0 +1,361 @@
+#error h1,
+#loading h1,
+#welcome h1,
+.dialog-box h1,
+#blocking-shield .message {
+  font-size: 250%;
+  font-weight: 300;
+  letter-spacing: -1px;
+  line-height: 1.1;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+#welcome-avatar-creator:not(.visible) {
+  display: none;
+}
+
+body.phone #error,
+body.phone #loading {
+  font-size: 32px;
+}
+
+#error,
+#loading {
+  position: fixed;
+  z-index: 999999999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: table;
+
+  background: $skyColour;
+  color: black;
+
+  font-size: 16px;
+
+  & > div {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0 50px;
+
+    line-height: 1.6;
+  }
+
+  a {
+    color: black;
+    white-space: nowrap;
+  }
+
+  button {
+    margin-top: 10px;
+    font-size: 100%;
+    padding: 5px 10px;
+  }
+}
+#error {
+  z-index: 999999999 + 1;
+}
+#error:not(.visible) {
+  display: none;
+}
+#loading.hidden {
+  display: none;
+}
+
+#loading-progress {
+  display: block;
+  width: 200px;
+  height: 8px;
+  padding: 0;
+  margin: 0 auto;
+  margin-top: 5px;
+  border: none;
+  border-top: 1px solid darken($uiColour, 20%);
+  border-bottom: 1px solid darken($uiColour, 20%);
+  background: transparent;
+  background-size: auto;
+  color: $offWhite;
+
+  @include appearance(none);
+
+  &::-webkit-progress-bar {
+    background: transparent;
+  }
+  &::-webkit-progress-value {
+    background: $offWhite;
+  }
+  &::-moz-progress-bar {
+    background: $offWhite;
+  }
+}
+
+#blocking-shield {
+  z-index: 999999999 - 1;
+
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: table;
+
+  font-size: 16px;
+
+  & > div {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  background: transparent;
+  color: transparent;
+
+  &.darken,
+  &.darken-immediately {
+    background: fade-out($skyColour, 0.15);
+    color: black;
+  }
+
+  &.darken {
+    transition: background 1500ms, color 1500ms;
+  }
+  &.darken-immediately {
+    transition: none;
+  }
+
+  .try-again,
+  .too-slow {
+    margin-top: 20px;
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+
+    display: none;
+  }
+  &.show-try-again .try-again,
+  &.show-too-slow .too-slow {
+    display: block;
+  }
+  #blocking-shield-cancel {
+    display: none;
+  }
+  &.show-cancel #blocking-shield-cancel {
+    display: inline-block;
+  }
+
+  cursor: wait;
+  & * {
+    cursor: wait;
+  }
+  & button {
+    cursor: auto;
+  }
+
+  &:not(.visible) {
+    display: none;
+  }
+}
+
+#status-message,
+#no-connection-message {
+  position: absolute;
+  bottom: 33px;
+  left: 20px;
+  right: 20px;
+  height: 20px;
+  padding: 0;
+  z-index: 2000000;
+  pointer-events: none;
+  user-select: none;
+
+  transition: opacity 200ms, transform 200ms;
+  transform: translateY(100px);
+
+  &.visible {
+    transform: translateY(0);
+  }
+
+  & > div {
+    position: relative;
+    display: inline-block;
+    padding: 5px 20px;
+    padding-right: 45px; // for close box
+    border-top: 3px solid darken(rgb(255, 230, 150), 20%);
+    border-bottom: 3px solid darken(rgb(255, 230, 150), 20%);
+    font-size: 13px;
+    background: rgb(255, 230, 150);
+    color: rgb(64, 32, 32);
+    pointer-events: auto;
+  }
+
+  button {
+    margin-left: 20px;
+    font-size: 100%;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  // Override styles for dialog box close button
+  .close {
+    height: 100%;
+  }
+}
+
+body.no-connection-message-visible #status-message {
+  bottom: 78px;
+}
+
+// --------------------------------------------------------
+
+#welcome {
+  position: absolute;
+  top: -5px;
+  left: 0;
+  right: 0;
+  z-index: 99999999;
+  text-align: center;
+
+  user-select: none;
+
+  pointer-events: none;
+
+  &:not(.first-time-new-street) .first-time-new-street,
+  &:not(.first-time-existing-street) .first-time-existing-street,
+  &:not(.new-street) .new-street {
+    display: none;
+  }
+
+  > div {
+    pointer-events: auto;
+
+    display: inline-block;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    @include box-border();
+    background: white;
+    padding: 6px 15px;
+    text-align: center;
+    font-size: 16px;
+
+    color: rgb(64, 64, 64);
+  }
+  button {
+    font-size: 100%;
+  }
+  ul,
+  p {
+    display: inline-block;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 5px;
+  }
+  p {
+    line-height: 1.5;
+    display: block;
+    max-width: 700px;
+
+    &.important {
+    }
+  }
+  li {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+
+    &:not(:first-child)::before {
+      content: '·';
+      margin: 0 5px;
+      color: darken($uiColour, 40%);
+      padding-left: 0;
+    }
+
+    &:nth-child(3):not(.visible) {
+      display: none;
+    }
+  }
+  input[type='radio'] {
+    display: none;
+
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+  }
+  label {
+    cursor: pointer;
+
+    &:hover {
+      color: black;
+    }
+  }
+  input[type='radio']:checked + label {
+    color: black;
+    font-weight: bold;
+  }
+  input[type='radio']:not(:checked) + label {
+    text-decoration: underline;
+  }
+  &:not(.visible) {
+    display: none;
+  }
+}
+
+.avatar {
+  display: inline-block;
+
+  background-size: 100%;
+  width: 20px;
+  height: 20px;
+  border-top: 1px solid darken($uiColour, 30%);
+  border-bottom: 1px solid darken($uiColour, 30%);
+
+  margin-right: 5px;
+  vertical-align: middle;
+  margin-top: -1px;
+  margin-left: 3px;
+}
+
+body.controls-fade-out .info-bubble {
+  transition: opacity $touchControlsFadeoutTime;
+  opacity: 0.01 !important;
+}
+body.controls-fade-out .segment .drag-handle {
+  transition: opacity $touchControlsFadeoutTime !important;
+  opacity: 0.01 !important;
+}
+body.controls-fade-out .segment:not(.unmovable).hover .hover-bk {
+  transition: opacity $touchControlsFadeoutTime !important;
+  opacity: 0.01 !important;
+}
+
+// Keyboard button
+.key {
+  display: inline-block;
+  position: relative;
+  top: -2px;
+  padding: 1px 6px;
+  border-top: 1px solid rgb(240, 240, 240);
+  border-left: 1px solid rgb(240, 240, 240);
+  border-bottom: 1px solid rgb(200, 200, 200);
+  border-right: 1px solid rgb(200, 200, 200);
+  border-radius: 2px;
+  font-size: 11px;
+  font-style: italic;
+  background: rgb(220, 220, 220);
+  color: rgb(64, 64, 64);
+
+  // Spacing of multiple keys in series
+  & + .key {
+    margin-left: 0.25em;
+  }
+}
+

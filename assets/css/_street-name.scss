@@ -1,0 +1,145 @@
+$streetNameSize:          1.5;
+$streetNameTop:           10px;
+
+#street-name-canvas {
+  position: absolute;
+  left: 150px;
+  right: 150px;
+  top: $streetNameTop;
+  z-index: 1000000;
+  text-align: center;
+  pointer-events: none;
+
+  &.move-down-for-menu {
+    transform: translateY(20px);
+  }
+
+  &.no-movement {
+    transition: none !important;
+  }
+
+  &.hidden {
+    display: none;
+  }
+}
+
+body.read-only #street-name-canvas {
+  transform: translateY(0);
+}
+
+@mixin street-name-mixin($size: $streetNameSize) {
+  padding: 3px * $size;
+}
+
+@mixin street-name-inside-mixin($size: $streetNameSize) {
+  height: 30px * $size;
+  border: 3px * $size solid $streetNameText;
+  padding: 10px * $size 30px * $size;
+  padding-top: 11px * $size;
+  padding-bottom: 5px * $size;
+  font-size: 40px * $size;
+  line-height: 30px * $size;
+  letter-spacing: 1px * $size;
+}
+
+@mixin street-name-fallback-mixin($size: $streetNameSize) {
+  font-size: 35px * $size;
+  padding-bottom: 11px * $size;
+}
+
+body.windows .street-name-text {
+  line-height: 38px;
+}
+
+.street-name {
+  @include street-name-mixin();
+  display: inline-block;
+
+  background: $streetNameBackground;
+  color: $streetNameText;
+
+  user-select: none;
+  white-space: nowrap;
+
+  & > div,
+  & > span {
+    @include street-name-inside-mixin();
+
+    font-family: 'Roadgeek', sans-serif;
+    text-align: left;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &.fallback-unicode-font > div {
+    font-family: sans-serif;
+
+    @include street-name-fallback-mixin();
+  }
+}
+
+.street-name-text {
+  @include street-name-inside-mixin();
+  font-family: 'Roadgeek', sans-serif;
+  text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+#gallery .streets .street-name,
+#welcome .street-name {
+  @include street-name-mixin($streetNameGallerySize);
+  max-width: 100%;
+  position: relative;
+  top: -15px;
+
+  & > div,
+  & > span {
+    @include street-name-inside-mixin($streetNameGallerySize);
+  }
+
+  &.fallback-unicode-font > div {
+    @include street-name-fallback-mixin($streetNameGallerySize);
+  }
+}
+
+#welcome .street-name {
+  display: inline-block;
+  top: 0;
+}
+
+#street-name {
+  position: relative;
+  max-width: 100%;
+  pointer-events: auto;
+  @include tap-highlight-color(transparent);
+}
+
+body:not(.touch-support):not(.read-only) #street-name {
+  cursor: pointer;
+
+  &:hover {
+    color: rgb(220, 220, 220);
+    background: white;
+
+    & > div {
+      border-color: rgb(220, 220, 220);
+    }
+    &::after {
+      color: black;
+      // TODO message
+      content: 'Click to rename';
+
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      line-height: 60px * $streetNameSize;
+
+      font-family: sans-serif;
+      font-size: 12px;
+    }
+  }
+}

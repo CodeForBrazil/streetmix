@@ -1,0 +1,1 @@
+MenuManager.define('identity')
